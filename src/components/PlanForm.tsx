@@ -40,7 +40,24 @@ interface PlanFormProps {
     onSave: (data: any) => void;
 }
 
-const initialModules = [
+interface Branch {
+    id: string;
+    name: string;
+    role: string;
+    isChecked: boolean;
+    isDefault: boolean;
+}
+
+interface Module {
+    id: string;
+    name: string;
+    isOpen: boolean;
+    type: 'single-role' | 'branch-role';
+    role?: string;
+    branches: Branch[];
+}
+
+const initialModules: Module[] = [
     {
         id: 'erp_central',
         name: 'ERP Central',
@@ -82,7 +99,7 @@ const initialModules = [
 
 export function PlanForm({ onClose, onSave }: PlanFormProps) {
     const [showPassword, setShowPassword] = useState(false);
-    const [modules, setModules] = useState(initialModules);
+    const [modules, setModules] = useState<Module[]>(initialModules);
 
     const toggleAccordion = (id: string) => {
         setModules(prev => prev.map(m => m.id === id ? { ...m, isOpen: !m.isOpen } : m));
